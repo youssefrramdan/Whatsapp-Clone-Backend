@@ -1,12 +1,10 @@
 /* eslint-disable no-shadow */
 // logger.js
 import path from 'path';
-import { fileURLToPath } from 'url';
 import { createLogger, format, transports } from 'winston';
 
 // Calculate __dirname in ES modules
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const logPath = path.join(process.cwd(), 'logs');
 
 // Winston format destructuring
 const { combine, timestamp, printf, errors, colorize, json } = format;
@@ -27,21 +25,21 @@ const logger = createLogger({
   defaultMeta: { service: 'app-service' },
   transports: [
     new transports.File({
-      filename: path.join(__dirname, 'logs', 'error.log'),
+      filename: path.join(logPath, 'error.log'),
       level: 'error',
     }),
     new transports.File({
-      filename: path.join(__dirname, 'logs', 'combined.log'),
+      filename: path.join(logPath, 'combined.log'),
     }),
   ],
   exceptionHandlers: [
     new transports.File({
-      filename: path.join(__dirname, 'logs', 'exceptions.log'),
+      filename: path.join(logPath, 'exceptions.log'),
     }),
   ],
   rejectionHandlers: [
     new transports.File({
-      filename: path.join(__dirname, 'logs', 'rejections.log'),
+      filename: path.join(logPath, 'rejections.log'),
     }),
   ],
 });

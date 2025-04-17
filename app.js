@@ -4,9 +4,10 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import morgan from 'morgan';
 import helmet from 'helmet';
+import compression from 'compression';
 import globalError from './middlewares/errorMiddleware.js';
 import ApiError from './utils/apiError.js';
-import compression from 'compression';
+import logger from './config/logger.config.js';
 
 dotenv.config({ path: './config/config.env' });
 const app = express();
@@ -25,7 +26,7 @@ app.use(express.json());
 app.use(cookieParser());
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
-  console.log(`mode : ${process.env.NODE_ENV}`);
+  logger.info(`mode : ${process.env.NODE_ENV}`);
 }
 
 // mount Routes
