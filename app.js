@@ -3,8 +3,10 @@ import express from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import morgan from 'morgan';
+import helmet from 'helmet';
 import globalError from './middlewares/errorMiddleware.js';
 import ApiError from './utils/apiError.js';
+import compression from 'compression';
 
 dotenv.config({ path: './config/config.env' });
 const app = express();
@@ -17,6 +19,8 @@ const corsOption = {
 
 // middlewares
 app.use(cors(corsOption));
+app.use(compression());
+app.use(helmet())
 app.use(express.json());
 app.use(cookieParser());
 if (process.env.NODE_ENV === 'development') {
